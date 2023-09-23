@@ -6,13 +6,13 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleEmailChange = (e) => {
+  function handleEmailChange(e) {
     setEmail(e.target.value);
-  };
+  }
 
-  const handlePasswordChange = (e) => {
+  function handlePasswordChange(e) {
     setPassword(e.target.value);
-  };
+  }
 
   const handeLogin = (e) => {
     e.preventDefault();
@@ -34,10 +34,22 @@ function Login() {
       <h1>Login</h1>
       <form onSubmit={handeLogin}>
         <h2>Email</h2>
-        <input type="email" id="email" onChange={handleEmailChange} />
+        <input
+          type="email"
+          id="email"
+          autoComplete="off"
+          onChange={handleEmailChange}
+          value={email}
+        />
 
         <h2>Password</h2>
-        <input type="password" id="password" onChange={handlePasswordChange} />
+        <input
+          type="password"
+          id="password"
+          autoComplete="off"
+          onChange={handlePasswordChange}
+          value={password}
+        />
         <button type="submit">Login</button>
       </form>
     </div>

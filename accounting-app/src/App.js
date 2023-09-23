@@ -35,4 +35,4 @@ function App() {
 }
 
 export default App;
-export { app, auth };
+export { auth };
