@@ -1,7 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Login from "./Login";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -15,32 +16,23 @@ const firebaseConfig = {
   storageBucket: "massamty-d97f8.appspot.com",
   messagingSenderId: "301372907492",
   appId: "1:301372907492:web:b2cea8008f9c98d4f4f1f1",
-  measurementId: "G-1SN4D8HV0R"
+  measurementId: "G-1SN4D8HV0R",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const analytics = getAnalytics(app);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Login />
+      <h3>Create an account</h3>
+      <button>Create Account</button>
     </div>
   );
 }
 
 export default App;
+export { app, auth };
