@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import { auth } from "./App";
+import { Link } from "react-router-dom";
+import { auth } from "../index";
 import { signInWithEmailAndPassword } from "firebase/auth";
+
+// Test User:
+// Email: testuser@gmail.com
+// Password: testing123#
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,20 +19,24 @@ function Login() {
     setPassword(e.target.value);
   }
 
-  const handeLogin = (e) => {
+  function handeLogin(e) {
     e.preventDefault();
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        console.log("Logged in successfully!");
         // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
       });
-  };
+
+    setEmail("");
+    setPassword("");
+  }
 
   return (
     <div className="login-container">
@@ -40,6 +49,7 @@ function Login() {
           autoComplete="off"
           onChange={handleEmailChange}
           value={email}
+          required
         />
 
         <h2>Password</h2>
@@ -49,9 +59,12 @@ function Login() {
           autoComplete="off"
           onChange={handlePasswordChange}
           value={password}
+          required
         />
         <button type="submit">Login</button>
       </form>
+      <h3>Create an account</h3>
+      <Link to="/CreateAccount">Create Account</Link>
     </div>
   );
 }
