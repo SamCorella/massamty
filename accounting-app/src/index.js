@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
 import SignIn from "./routes/SignIn";
 import CreateAccount from "./routes/CreateAccount";
+import Home from "./routes/Home";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -34,6 +35,7 @@ root.render(
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/CreateAccount" element={<CreateAccount />} />
+        <Route path="/Home" element={<Home />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
