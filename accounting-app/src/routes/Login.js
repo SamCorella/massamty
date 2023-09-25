@@ -63,8 +63,10 @@ function Login() {
         />
         <button type="submit">Login</button>
       </form>
-      <h3>Create an account</h3>
-      <Link to="/CreateAccount">Create Account</Link>
+      <Link to="/">Forgot Password</Link>
+      <p>
+        New User? <Link to="/CreateAccount">Create Account</Link>
+      </p>
     </div>
   );
 }
