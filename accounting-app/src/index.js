@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-import Login from "./routes/Login";
+import SignIn from "./routes/SignIn";
 import CreateAccount from "./routes/CreateAccount";
 
 // Import the functions you need from the SDKs you need
@@ -32,7 +32,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<SignIn />} />
         <Route path="/CreateAccount" element={<CreateAccount />} />
       </Routes>
     </BrowserRouter>
