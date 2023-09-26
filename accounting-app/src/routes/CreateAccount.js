@@ -12,11 +12,13 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Logo from "../components/Logo";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { DatePicker } from "@mui/x-date-pickers";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../index";
+import { auth, db } from "../index";
 
 const defaultTheme = createTheme();
 
@@ -30,22 +32,32 @@ function CreateAccount() {
     const password = data.get("password");
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
+      .then(async (userCredential) => {
         const user = userCredential.user;
+        try {
+          const docRef = await addDoc(collection(db, "users"), {
+            first: data.get("firstName"),
+            last: data.get("lastName"),
+            email: email,
+            role: data.get("role"),
+          });
+          console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
         navigate("/");
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log(errorCode);
         console.log(errorMessage);
-        // ..
       });
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <Logo />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

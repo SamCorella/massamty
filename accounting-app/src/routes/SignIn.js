@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import Logo from "../components/Logo";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { auth } from "../index";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -40,6 +41,7 @@ export default function SignIn() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <Logo />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
