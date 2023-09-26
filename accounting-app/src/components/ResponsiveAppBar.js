@@ -14,7 +14,6 @@ import MenuItem from "@mui/material/MenuItem";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
 const pages = ["Dashboad"];
-const settings = ["Profile", "Logout"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -99,40 +98,20 @@ function ResponsiveAppBar() {
           <AccountBalanceIcon
             sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
           />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button
+              href="/"
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Dashboard
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar />
               </IconButton>
             </Tooltip>
             <Menu
@@ -151,11 +130,32 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography
+                  component="a"
+                  href="#"
+                  textAlign="center"
+                  sx={{
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Profile
+                </Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography
+                  component="a"
+                  href="/"
+                  textAlign="center"
+                  sx={{
+                    color: "inherit",
+                    textDecoration: "none",
+                  }}
+                >
+                  Logout
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
