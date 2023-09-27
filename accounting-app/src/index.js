@@ -7,6 +7,7 @@ import "./index.css";
 import SignIn from "./routes/SignIn";
 import CreateAccount from "./routes/CreateAccount";
 import Home from "./routes/Home";
+import Dashboard from "./routes/Dashboard";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -51,6 +52,7 @@ root.render(
           <Route path="/" element={<SignIn />} />
           <Route path="/CreateAccount" element={<CreateAccount />} />
           <Route path="/Home" element={<Home />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>

@@ -36,10 +36,11 @@ function CreateAccount() {
         const user = userCredential.user;
         try {
           const docRef = await addDoc(collection(db, "users"), {
+            id: user.uid,
             first: data.get("firstName"),
             last: data.get("lastName"),
             email: email,
-            role: data.get("role"),
+            role: data.get("radio-buttons-group"),
           });
           console.log("Document written with ID: ", docRef.id);
         } catch (e) {
