@@ -14,55 +14,11 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import {
-  randomCreatedDate,
-  randomTraderName,
-  randomId,
-  randomArrayItem,
-} from "@mui/x-data-grid-generator";
+import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
 
 const roles = ["Market", "Finance", "Development"];
-const randomRole = () => {
-  return randomArrayItem(roles);
-};
 
-const initialRows = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];
+const initialRows = [];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -130,10 +86,9 @@ export default function CrudGrid() {
   };
 
   const columns = [
-    { field: "name", headerName: "Name", width: 180, editable: true },
     {
-      field: "age",
-      headerName: "Age",
+      field: "accountNumber",
+      headerName: "Account Number",
       type: "number",
       flex: 1,
       align: "left",
@@ -141,19 +96,35 @@ export default function CrudGrid() {
       editable: true,
     },
     {
-      field: "joinDate",
-      headerName: "Join date",
-      type: "date",
+      field: "accountName",
+      headerName: "Account Name",
       flex: 1,
       editable: true,
     },
     {
-      field: "role",
-      headerName: "Department",
+      field: "category",
+      headerName: "Category",
+      type: "singleSelect",
+      valueOptions: [""],
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "subcategory",
+      headerName: "Subcategory",
       flex: 1,
       editable: true,
       type: "singleSelect",
       valueOptions: ["Market", "Finance", "Development"],
+    },
+    {
+      field: "balance",
+      headerName: "Balance",
+      flex: 1,
+      editable: true,
+      type: "number",
+      align: "left",
+      headerAlign: "left",
     },
     {
       field: "actions",
