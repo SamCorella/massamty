@@ -15,6 +15,9 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
+import { useEffect } from "react";
+import { db } from "../index";
+import { collection, getDocs } from "firebase/firestore";
 
 const roles = ["Market", "Finance", "Development"];
 
@@ -42,8 +45,24 @@ function EditToolbar(props) {
 }
 
 export default function CrudGrid() {
-  const [rows, setRows] = React.useState(initialRows);
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
+
+  useEffect(() => {
+    const fetchAccountData = async () => {
+      try {
+        const accountCollection = await getDocs(collection(db, "accounts"));
+        const accountDataArray = accountCollection.docs.map((doc) =>
+          doc.data()
+        );
+        setRows(accountDataArray);
+      } catch (error) {
+        console.error("Error fetching account data:", error);
+      }
+    };
+
+    fetchAccountData();
+  }, []);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -105,7 +124,7 @@ export default function CrudGrid() {
       field: "category",
       headerName: "Category",
       type: "singleSelect",
-      valueOptions: [""],
+      valueOptions: ["Asset", "Equity", "Liability"],
       flex: 1,
       editable: true,
     },
@@ -115,7 +134,12 @@ export default function CrudGrid() {
       flex: 1,
       editable: true,
       type: "singleSelect",
-      valueOptions: ["Market", "Finance", "Development"],
+      valueOptions: [
+        "Income",
+        "Accounts Receivable",
+        "Accounts Payable",
+        "Retained Earnings",
+      ],
     },
     {
       field: "balance",
@@ -125,6 +149,12 @@ export default function CrudGrid() {
       type: "number",
       align: "left",
       headerAlign: "left",
+    },
+    {
+      field: "description",
+      headerName: "Description",
+      flex: 1,
+      editable: true,
     },
     {
       field: "actions",
