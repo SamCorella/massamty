@@ -17,21 +17,34 @@ import {
 import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
 import { useEffect } from "react";
 import { db } from "../index";
-import { collection, getDocs } from "firebase/firestore";
-
-const roles = ["Market", "Finance", "Development"];
-
-const initialRows = [];
+import {
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
     const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
+    setRows((oldRows) => [
+      ...oldRows,
+      {
+        id,
+        accountName: "",
+        accountNumber: "",
+        category: "",
+        subcategory: "",
+        description: "",
+        isNew: true,
+      },
+    ]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: "accountName" },
     }));
   };
 
@@ -78,7 +91,9 @@ export default function CrudGrid() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id) => () => {
+  const handleDeleteClick = (id) => async () => {
+    const deletedRow = rows.find((row) => row.id === id);
+    await deleteDoc(doc(db, "accounts", deletedRow.id));
     setRows(rows.filter((row) => row.id !== id));
   };
 
@@ -94,9 +109,18 @@ export default function CrudGrid() {
     }
   };
 
-  const processRowUpdate = (newRow) => {
+  const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    await setDoc(doc(db, "accounts", newRow.id), {
+      id: newRow.id,
+      accountNumber: newRow.accountNumber,
+      accountName: newRow.accountName,
+      category: newRow.category,
+      subcategory: newRow.subcategory,
+      balance: newRow.balance,
+      description: newRow.description,
+    });
     return updatedRow;
   };
 
