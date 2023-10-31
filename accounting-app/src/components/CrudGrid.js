@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import VisibilitySharpIcon from "@mui/icons-material/VisibilitySharp";
-import EventIcon from '@mui/icons-material/Event';
+import EventIcon from "@mui/icons-material/Event";
 import {
   GridRowModes,
   DataGrid,
@@ -224,6 +224,8 @@ export default function CrudGrid() {
             icon={<VisibilitySharpIcon />}
             label="View"
             color="inherit"
+            component="a"
+            href="/Ledger"
           />,
           <GridActionsCellItem
             icon={<EditIcon />}
@@ -239,11 +241,11 @@ export default function CrudGrid() {
             color="inherit"
           />,
           <GridActionsCellItem
-          icon={<EventIcon/>}
-          label="Event Log"
-          component="a"
-          href="/EventLog"
-          color="inherit"
+            icon={<EventIcon />}
+            label="Event Log"
+            component="a"
+            href="/EventLog"
+            color="inherit"
           />,
         ];
       },
