@@ -10,6 +10,7 @@ function EventLog() {
     return (
         <div style={{ height: 400, width: "100%" }}>
             <DataGrid
+            columns = {colums}
             />
         </div>
     );
