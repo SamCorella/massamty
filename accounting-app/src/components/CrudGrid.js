@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import VisibilitySharpIcon from "@mui/icons-material/VisibilitySharp";
+import EventIcon from '@mui/icons-material/Event';
 import {
   GridRowModes,
   DataGrid,
@@ -121,6 +122,15 @@ export default function CrudGrid() {
       balance: newRow.balance,
       description: newRow.description,
     });
+    await setDoc(doc(db, "Events", newRow.id), {
+      id: newRow.id,
+      accountNumber: newRow.accountNumber,
+      accountName: newRow.accountName,
+      category: newRow.category,
+      subcategory: newRow.subcategory,
+      balance: newRow.balance,
+      description: newRow.description,
+    });
     return updatedRow;
   };
 
@@ -227,6 +237,13 @@ export default function CrudGrid() {
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
+          />,
+          <GridActionsCellItem
+          icon={<EventIcon/>}
+          label="Event Log"
+          component="a"
+          href="/EventLog"
+          color="inherit"
           />,
         ];
       },

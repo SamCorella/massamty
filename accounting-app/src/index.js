@@ -8,6 +8,7 @@ import SignIn from "./routes/SignIn";
 import CreateAccount from "./routes/CreateAccount";
 import Home from "./routes/Home";
 import Dashboard from "./routes/Dashboard";
+import EventLog from "./routes/EventLog";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -53,6 +54,7 @@ root.render(
           <Route path="/CreateAccount" element={<CreateAccount />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/EventLog" element={<EventLog />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>
