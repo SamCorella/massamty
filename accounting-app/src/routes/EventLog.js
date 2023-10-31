@@ -7,8 +7,7 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function EventLog() {
     const [events, setEventsData] = useState([]);
@@ -24,6 +23,7 @@ function EventLog() {
           };
           fetchUserData();
         },[]);
+    
     const columns = [
         { field: "id", headerName: "User ID", flex: 1 },
         { field: "before", headerName: "Before", flex: 1 },
@@ -33,6 +33,7 @@ function EventLog() {
     return (
         <div style={{ height: 400, width: "100%" }}>
             <DataGrid
+            autoHeight
             rows = {events}
             columns = {columns}
             pagesize = {10}
