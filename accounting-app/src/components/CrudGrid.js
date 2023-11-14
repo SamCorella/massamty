@@ -26,6 +26,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import {useState} from 'react';
+import { auth } from '../index';
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -110,25 +111,15 @@ export default function CrudGrid() {
       setRows(rows.filter((row) => row.id !== id));
     }
   };
-
+  
   const processRowUpdate = async (newRow) => {
-    /*const [dataBeforeUpdate, setDataBeforeUpdate] = useState(initialData);
-    const [dataAfterUpdate, setDataAfterUpdate] = useState(initialData);
-    const [date, processRowUpdate] = useState([]);
-    const [lastUpdate, setLastUpdate] = useState(null);
-
-    useEffect(() => {
-      setLastUpdate(new Date());
-    }, [date]);
-
-    useEffect(() => {
-      setDataBeforeUpdate(dataAfterUpdate);
-    }, [dataAfterUpdate]);*/
-
-    const dataBeforeUpdate = "User ID: 1,  Account Number: 1,  Account Name: Test,  Category: Asset,  Subcategory: Accounts Receivable,  Balance: 50,  Description: sample data";
-    const dataAfterUpdate = "User ID: 1,  Account Number: 1,  Account Name: Test,  Category: Asset,  Subcategory: Accounts Receivable,  Balance: 50,  Description: sample data";
-    const date = new Date("2023-10-31");
-    const id = "115652";
+    const auth = getAuth();
+    const user = auth.currentUser;
+    let id = 0;
+    function uniqueID(id){
+      return id++;
+    }
+    const currentDate = new Date().toDateString();
     
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
@@ -141,12 +132,18 @@ export default function CrudGrid() {
       balance: newRow.balance,
       description: newRow.description,
     });
-    await addDoc(doc(db, "Events"), {
-      uid: id,
-      before: dataBeforeUpdate,
-      after: dataAfterUpdate,
-      date: date,
+    //try {
+    await setDoc(doc(db, "Events", newRow.id), {
+      id: uniqueID(id),
+      user: user.uid,
+      before: 'before',
+      after: 'after',
+      date: currentDate,
     });
+    //console.log('New document added with ID:', newDocRef.id);
+    //} catch (e) {
+    //console.error("Error adding document: ", e);
+    //}
     return updatedRow;
   };
 
