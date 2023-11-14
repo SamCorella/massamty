@@ -55,13 +55,8 @@ root.render(
           <Route path="/CreateAccount" element={<CreateAccount />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/Dashboard" element={<Dashboard />} />
-<<<<<<< HEAD
           <Route path="/EventLog" element={<EventLog />} />
           <Route path="/Ledger/:accountId" element={<Ledger />} />
-=======
-          <Route path="/View" element={<Dashboard />} />
-          <Route path="/JournalEntry" element={<JournalEntry/>} />
->>>>>>> adf3333d633fdc98fac94c3e34837b3b3263dc05
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>
