@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import { db } from "../index";
 import Logo from "../components/Logo";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { DataGrid } from "@mui/x-data-grid";
+import { useParams } from "react-router-dom";
 
 function Ledger() {
   const [entryData, setEntryData] = useState([]);
 
+  const accountId = useParams();
+
   useEffect(() => {
+    const q = query(
+      collection(db, "journal-entries"),
+      where("id", "==", accountId)
+    );
+
     const fetchEntryData = async () => {
       try {
-        const entryCollection = await getDocs(
-          collection(db, "journal-entries")
-        );
+        const entryCollection = await getDocs(q);
         const entryDataArray = entryCollection.docs.map((doc) => doc.data());
         setEntryData(entryDataArray);
       } catch (error) {

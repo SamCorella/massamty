@@ -38,6 +38,7 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
     const uid = user.uid;
+    console.log(uid);
     // ...
   } else {
     // User is signed out
@@ -56,7 +57,7 @@ root.render(
           <Route path="/Home" element={<Home />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/EventLog" element={<EventLog />} />
-          <Route path="/Ledger" element={<Ledger />} />
+          <Route path="/Ledger/:accountId" element={<Ledger />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>

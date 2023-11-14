@@ -15,7 +15,7 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
+import { randomId } from "@mui/x-data-grid-generator";
 import { useEffect } from "react";
 import { db } from "../index";
 import {
@@ -25,7 +25,7 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
-import {useState} from 'react';
+import { useNavigate } from "react-router-dom";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -46,7 +46,7 @@ function EditToolbar(props) {
     ]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "accountName" },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: "accountNumber" },
     }));
   };
 
@@ -85,6 +85,13 @@ export default function CrudGrid() {
     }
   };
 
+  const navigate = useNavigate();
+
+  const viewLedger = (id) => () => {
+    const accountId = id;
+    navigate("/Ledger/${accountId}");
+  };
+
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
@@ -112,24 +119,9 @@ export default function CrudGrid() {
   };
 
   const processRowUpdate = async (newRow) => {
-    /*const [dataBeforeUpdate, setDataBeforeUpdate] = useState(initialData);
-    const [dataAfterUpdate, setDataAfterUpdate] = useState(initialData);
-    const [date, processRowUpdate] = useState([]);
-    const [lastUpdate, setLastUpdate] = useState(null);
-
-    useEffect(() => {
-      setLastUpdate(new Date());
-    }, [date]);
-
-    useEffect(() => {
-      setDataBeforeUpdate(dataAfterUpdate);
-    }, [dataAfterUpdate]);*/
-
-    const dataBeforeUpdate = "User ID: 1,  Account Number: 1,  Account Name: Test,  Category: Asset,  Subcategory: Accounts Receivable,  Balance: 50,  Description: sample data";
-    const dataAfterUpdate = "User ID: 1,  Account Number: 1,  Account Name: Test,  Category: Asset,  Subcategory: Accounts Receivable,  Balance: 50,  Description: sample data";
     const date = new Date("2023-10-31");
     const id = "115652";
-    
+
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     await setDoc(doc(db, "accounts", newRow.id), {
@@ -141,10 +133,8 @@ export default function CrudGrid() {
       balance: newRow.balance,
       description: newRow.description,
     });
-    await addDoc(doc(db, "Events"), {
+    await setDoc(doc(db, "Events", newRow.id), {
       uid: id,
-      before: dataBeforeUpdate,
-      after: dataAfterUpdate,
       date: date,
     });
     return updatedRow;
@@ -240,8 +230,7 @@ export default function CrudGrid() {
             icon={<VisibilitySharpIcon />}
             label="View"
             color="inherit"
-            component="a"
-            href="/Ledger"
+            onClick={viewLedger(id)}
           />,
           <GridActionsCellItem
             icon={<EditIcon />}
