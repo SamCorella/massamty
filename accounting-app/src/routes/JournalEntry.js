@@ -39,43 +39,21 @@ function FormPropsTextFields() {
       autoComplete="off"
     >
       <div>
-        <TextField
-          required
-          id="outlined-required-AC"
-          label="Required"
-          defaultValue="Account Number"
-        />
-        <TextField
-          required
-          id="outlined-required-AN"
-          label="Required"
-          defaultValue="Account Name"
-        />
+        <TextField required id="outlined-required-AN" label="Account 1" />
         <TextField
           required
           id="outlined-required-EntryID"
-          label="Required"
+          label="Account 2"
           type="EntryID"
-          autoComplete="current-password"
-        />
-        <TextField
-          id="outlined-read-only-input"
-          label="Read Only"
-          defaultValue="Each transaction must have at least one debit and one credit"
-          InputProps={{
-            readOnly: true,
-          }}
         />
         <TextField
           id="outlined-Credit"
           label="Credit"
-          defaultValue="Credit"
           helperText="Must have as least 1"
         />
         <TextField
           id="outlined-Debit"
           label="Debit"
-          defaultValue="Debit"
           helperText="Must have as least 1"
         />
         <TextField id="outlined-Date" label="Date" defaultValue="xx/xx/xxxx" />
