@@ -10,6 +10,7 @@ import Home from "./routes/Home";
 import Dashboard from "./routes/Dashboard";
 import EventLog from "./routes/EventLog";
 import Ledger from "./routes/Ledger";
+import JournalEntry from "./routes/JournalEntry";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -56,11 +57,8 @@ root.render(
           <Route path="/Home" element={<Home />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/EventLog" element={<EventLog />} />
-<<<<<<< HEAD
           <Route path="/Ledger/:accountId" element={<Ledger />} />
-=======
-          <Route path="/Ledger" element={<Ledger />} />
->>>>>>> 22c99d2a4b5ec1fc36ed68b5e53efc5533f87851
+          <Route path="/JournalEntry" element={<JournalEntry />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>

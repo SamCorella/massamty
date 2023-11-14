@@ -25,8 +25,9 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
-import {useState} from 'react';
-import { auth } from '../index';
+import { useState } from "react";
+import { auth } from "../index";
+import { useNavigate } from "react-router-dom";
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -86,6 +87,12 @@ export default function CrudGrid() {
     }
   };
 
+  const navigate = useNavigate();
+  const viewLedger = (id) => () => {
+    const accountId = id;
+    navigate("/Ledger/${accountId}");
+  };
+
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
@@ -111,16 +118,15 @@ export default function CrudGrid() {
       setRows(rows.filter((row) => row.id !== id));
     }
   };
-  
+
   const processRowUpdate = async (newRow) => {
-    const auth = getAuth();
     const user = auth.currentUser;
     let id = 0;
-    function uniqueID(id){
+    function uniqueID(id) {
       return id++;
     }
     const currentDate = new Date().toDateString();
-    
+
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
     await setDoc(doc(db, "accounts", newRow.id), {
@@ -136,8 +142,8 @@ export default function CrudGrid() {
     await setDoc(doc(db, "Events", newRow.id), {
       id: uniqueID(id),
       user: user.uid,
-      before: 'before',
-      after: 'after',
+      before: "before",
+      after: "after",
       date: currentDate,
     });
     //console.log('New document added with ID:', newDocRef.id);
@@ -237,8 +243,7 @@ export default function CrudGrid() {
             icon={<VisibilitySharpIcon />}
             label="View"
             color="inherit"
-            component="a"
-            href="/Ledger"
+            onClick={viewLedger(id)}
           />,
           <GridActionsCellItem
             icon={<EditIcon />}
