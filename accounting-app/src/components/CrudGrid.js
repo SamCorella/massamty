@@ -7,7 +7,6 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import VisibilitySharpIcon from "@mui/icons-material/VisibilitySharp";
-import EventIcon from "@mui/icons-material/Event";
 import {
   GridRowModes,
   DataGrid,
@@ -16,37 +15,20 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
-import { useEffect } from "react";
-import { db } from "../index";
-import {
-  collection,
-  doc,
-  getDocs,
-  setDoc,
-  deleteDoc,
-} from "firebase/firestore";
-import {useState} from 'react';
+
+const roles = ["Market", "Finance", "Development"];
+
+const initialRows = [];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
     const id = randomId();
-    setRows((oldRows) => [
-      ...oldRows,
-      {
-        id,
-        accountName: "",
-        accountNumber: "",
-        category: "",
-        subcategory: "",
-        description: "",
-        isNew: true,
-      },
-    ]);
+    setRows((oldRows) => [...oldRows, { id, name: "", age: "", isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "accountName" },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
     }));
   };
 
@@ -60,24 +42,8 @@ function EditToolbar(props) {
 }
 
 export default function CrudGrid() {
-  const [rows, setRows] = React.useState([]);
+  const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState({});
-
-  useEffect(() => {
-    const fetchAccountData = async () => {
-      try {
-        const accountCollection = await getDocs(collection(db, "accounts"));
-        const accountDataArray = accountCollection.docs.map((doc) =>
-          doc.data()
-        );
-        setRows(accountDataArray);
-      } catch (error) {
-        console.error("Error fetching account data:", error);
-      }
-    };
-
-    fetchAccountData();
-  }, []);
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -93,9 +59,7 @@ export default function CrudGrid() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id) => async () => {
-    const deletedRow = rows.find((row) => row.id === id);
-    await deleteDoc(doc(db, "accounts", deletedRow.id));
+  const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
   };
 
@@ -111,47 +75,30 @@ export default function CrudGrid() {
     }
   };
 
-  const processRowUpdate = async (newRow) => {
-    /*const [dataBeforeUpdate, setDataBeforeUpdate] = useState(initialData);
-    const [dataAfterUpdate, setDataAfterUpdate] = useState(initialData);
-    const [date, processRowUpdate] = useState([]);
-    const [lastUpdate, setLastUpdate] = useState(null);
-
-    useEffect(() => {
-      setLastUpdate(new Date());
-    }, [date]);
-
-    useEffect(() => {
-      setDataBeforeUpdate(dataAfterUpdate);
-    }, [dataAfterUpdate]);*/
-
-    const dataBeforeUpdate = "User ID: 1,  Account Number: 1,  Account Name: Test,  Category: Asset,  Subcategory: Accounts Receivable,  Balance: 50,  Description: sample data";
-    const dataAfterUpdate = "User ID: 1,  Account Number: 1,  Account Name: Test,  Category: Asset,  Subcategory: Accounts Receivable,  Balance: 50,  Description: sample data";
-    const date = new Date("2023-10-31");
-    const id = "115652";
-    
+  const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    await setDoc(doc(db, "accounts", newRow.id), {
-      id: newRow.id,
-      accountNumber: newRow.accountNumber,
-      accountName: newRow.accountName,
-      category: newRow.category,
-      subcategory: newRow.subcategory,
-      balance: newRow.balance,
-      description: newRow.description,
-    });
-    await addDoc(doc(db, "Events"), {
-      uid: id,
-      before: dataBeforeUpdate,
-      after: dataAfterUpdate,
-      date: date,
-    });
     return updatedRow;
   };
 
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
+  };
+
+  const isNameUnique = (id, name) => {
+    return !rows.some((row) => row.id !== id && row.name === name);
+  };
+
+  const handleRowAdd = (params) => {
+    const newRow = { ...params.data };
+    if (!isNameUnique(null, newRow.name)) {
+      alert('Name must be unique.');
+      return;
+    }
+
+    const newId = Math.max(...rows.map((row) => row.id)) + 1;
+    newRow.id = newId;
+    setRows([...rows, newRow]);
   };
 
   const columns = [
@@ -174,7 +121,7 @@ export default function CrudGrid() {
       field: "category",
       headerName: "Category",
       type: "singleSelect",
-      valueOptions: ["Asset", "Equity", "Liability"],
+      valueOptions: [""],
       flex: 1,
       editable: true,
     },
@@ -184,12 +131,7 @@ export default function CrudGrid() {
       flex: 1,
       editable: true,
       type: "singleSelect",
-      valueOptions: [
-        "Income",
-        "Accounts Receivable",
-        "Accounts Payable",
-        "Retained Earnings",
-      ],
+      valueOptions: ["Market", "Finance", "Development"],
     },
     {
       field: "balance",
@@ -199,12 +141,6 @@ export default function CrudGrid() {
       type: "number",
       align: "left",
       headerAlign: "left",
-    },
-    {
-      field: "description",
-      headerName: "Description",
-      flex: 1,
-      editable: true,
     },
     {
       field: "actions",
@@ -240,8 +176,6 @@ export default function CrudGrid() {
             icon={<VisibilitySharpIcon />}
             label="View"
             color="inherit"
-            component="a"
-            href="/Ledger"
           />,
           <GridActionsCellItem
             icon={<EditIcon />}
@@ -254,13 +188,6 @@ export default function CrudGrid() {
             icon={<DeleteIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<EventIcon />}
-            label="Event Log"
-            component="a"
-            href="/EventLog"
             color="inherit"
           />,
         ];
