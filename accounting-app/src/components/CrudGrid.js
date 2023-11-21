@@ -15,7 +15,7 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import { randomId, randomArrayItem } from "@mui/x-data-grid-generator";
+import { randomId } from "@mui/x-data-grid-generator";
 import { useEffect } from "react";
 import { db } from "../index";
 import {
@@ -25,7 +25,6 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { useState } from "react";
 import { auth } from "../index";
 import { useNavigate } from "react-router-dom";
 
@@ -56,6 +55,9 @@ function EditToolbar(props) {
     <GridToolbarContainer>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add Account
+      </Button>
+      <Button variant="contained" href="/JournalEntry">
+        Create Journal Entry
       </Button>
     </GridToolbarContainer>
   );
@@ -90,7 +92,7 @@ export default function CrudGrid() {
   const navigate = useNavigate();
   const viewLedger = (id) => () => {
     const accountId = id;
-    navigate("/Ledger/${accountId}");
+    navigate("/Ledger/" + accountId);
   };
 
   const handleEditClick = (id) => () => {
@@ -138,18 +140,18 @@ export default function CrudGrid() {
       balance: newRow.balance,
       description: newRow.description,
     });
-    //try {
-    await setDoc(doc(db, "Events", newRow.id), {
-      id: uniqueID(id),
-      user: user.uid,
-      before: "before",
-      after: "after",
-      date: currentDate,
-    });
-    //console.log('New document added with ID:', newDocRef.id);
-    //} catch (e) {
-    //console.error("Error adding document: ", e);
-    //}
+    try {
+      await setDoc(doc(db, "Events", newRow.id), {
+        id: uniqueID(id),
+        user: user.uid,
+        before: "before",
+        after: "after",
+        date: currentDate,
+      });
+      //console.log("New document added with ID:", newDocRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
     return updatedRow;
   };
 

@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 import { db } from "../index";
 import Logo from "../components/Logo";
 import { collection, getDocs } from "firebase/firestore";
-import { DataGrid } from "@mui/x-data-grid";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -11,6 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Stack from "@mui/material/Stack";
+import AccountSelect from "../components/AccountSelect";
 
 function IconLabelButtons() {
   return (
@@ -38,26 +37,19 @@ function FormPropsTextFields() {
       noValidate
       autoComplete="off"
     >
-      <div>
-        <TextField required id="outlined-required-AN" label="Account 1" />
-        <TextField
-          required
-          id="outlined-required-EntryID"
-          label="Account 2"
-          type="EntryID"
-        />
-        <TextField
-          id="outlined-Credit"
-          label="Credit"
-          helperText="Must have as least 1"
-        />
-        <TextField
-          id="outlined-Debit"
-          label="Debit"
-          helperText="Must have as least 1"
-        />
-        <TextField id="outlined-Date" label="Date" defaultValue="xx/xx/xxxx" />
-      </div>
+      <AccountSelect label="Account 1" />
+      <TextField
+        id="outlined-Debit"
+        label="Debit"
+        helperText="Must have as least 1"
+      />
+      <AccountSelect label="Account 2" />
+      <TextField
+        id="outlined-Credit"
+        label="Credit"
+        helperText="Must have as least 1"
+      />
+      <TextField id="outlined-Date" label="Date" defaultValue="xx/xx/xxxx" />
     </Box>
   );
 }
