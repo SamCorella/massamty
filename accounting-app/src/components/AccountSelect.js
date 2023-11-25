@@ -1,10 +1,9 @@
-// SelectComponent.js
 import React, { useState, useEffect } from "react";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../index";
 
-const AccountSelect = ({ label }) => {
+const AccountSelect = ({ label, name }) => {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
 
@@ -31,7 +30,12 @@ const AccountSelect = ({ label }) => {
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
       <InputLabel id="select-label">{label}</InputLabel>
-      <Select id="select" value={selectedOption} onChange={handleSelectChange}>
+      <Select
+        id="select"
+        name={name}
+        value={selectedOption}
+        onChange={handleSelectChange}
+      >
         {options.map((option) => (
           <MenuItem key={option} value={option}>
             {option}
