@@ -53,7 +53,7 @@ export default function SignIn() {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sign in
+            Reset Password
           </Typography>
           <Box
             component="form"
@@ -66,9 +66,9 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Enter New Password"
               name="email"
-              autoComplete="email"
+              value=""
               autoFocus
             />
             <TextField
@@ -76,10 +76,10 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Re-Enter New Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+              value=""
             />
             <Button
               type="submit"
@@ -87,20 +87,8 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Reset Password
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="ForgotPassword" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="CreateAccount" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
