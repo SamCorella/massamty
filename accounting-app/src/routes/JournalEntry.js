@@ -11,6 +11,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import Stack from "@mui/material/Stack";
 import AccountSelect from "../components/AccountSelect";
 import { useNavigate } from "react-router-dom";
+import { randomId } from "@mui/x-data-grid-generator";
 
 function IconLabelButtons() {
   return (
@@ -65,6 +66,7 @@ export default function JournalEntry() {
 
     try {
       await addDoc(collection(db, "journal-entries"), {
+        id: randomId(),
         account1: data.get("account1"),
         account2: data.get("account2"),
         debit: data.get("outlined-Debit"),
@@ -94,46 +96,3 @@ export default function JournalEntry() {
     </Box>
   );
 }
-/*// Ledger.js code
-function JournalEntry() { //begin ledger.js
-  const [entryData, setEntryData] = useState([]);
-
-  useEffect(() => {
-    const fetchEntryData = async () => {
-      try {
-        const entryCollection = await getDocs(
-          collection(db, "journal-entries")
-        );
-        const entryDataArray = entryCollection.docs.map((doc) => doc.data());
-        setEntryData(entryDataArray);
-      } catch (error) {
-        console.error("Error fetching entry data:", error);
-      }
-    };
-
-    fetchEntryData();
-  }, []);
-
-  const columns = [
-    { field: "id", headerName: "Entry ID" },
-    { field: "accounts", headerName: "Accounts Impacted", flex: 1 },
-    { field: "debit", headerName: "Debit", flex: 1 },
-    { field: "credit", headerName: "Credit", flex: 1 },
-    { field: "date", headerName: "Date", flex: 1 },
-    { field: "amount", headerName: "Amount Changed", flex: 1}
-  ];
-
-  return (
-    <div style={{ height: 400, width: "100%" }}>
-      <Logo />
-      <h2>JournalEntry</h2>
-      <DataGrid
-        rows={entryData}
-        columns={columns}
-        pageSize={10} // Set the number of rows per page as needed
-      />
-    </div>
-  );
-}
-
-export default JournalEntry;*/
