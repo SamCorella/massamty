@@ -144,7 +144,7 @@ export default function CrudGrid() {
     try {
       await setDoc(doc(db, "Events", newRow.id), {
         id: newRow.id,
-        user: data.get("uid"),
+        user: user.uid,
         before: "before",
         after: "after",
         date: currentDate,
