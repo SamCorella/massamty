@@ -11,6 +11,10 @@ import Dashboard from "./routes/Dashboard";
 import EventLog from "./routes/EventLog";
 import Ledger from "./routes/Ledger";
 import JournalEntry from "./routes/JournalEntry";
+import ForgotPassword from "./routes/ForgotPassword";
+import ResetPassword from "./routes/ResetPassword";
+
+
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -59,6 +63,8 @@ root.render(
           <Route path="/EventLog" element={<EventLog />} />
           <Route path="/Ledger/:accountId" element={<Ledger />} />
           <Route path="/JournalEntry" element={<JournalEntry />} />
+          <Route path="/ForgotPassword" element={<ForgotPassword />} />
+          <Route path="/ResetPassword" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>
