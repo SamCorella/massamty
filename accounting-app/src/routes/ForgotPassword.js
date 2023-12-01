@@ -68,7 +68,6 @@ export default function SignIn() {
               id="email"
               label="Email Address"
               name="email"
-              value=""
               autoComplete=""
               autoFocus
             />
@@ -80,18 +79,16 @@ export default function SignIn() {
               label="User ID"
               type="password"
               id="password"
-              value=""
               autoComplete=""
             />
             <Button
               type="submit"
+              href="/ResetPassword"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-            <Link href="/ResetPassword" variant="body2">
-                  Reset Password
-            </Link>
+              Reset Password
             </Button>
           </Box>
         </Box>
