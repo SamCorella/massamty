@@ -21,6 +21,7 @@ import { db } from "../index";
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   setDoc,
   deleteDoc,
@@ -143,7 +144,7 @@ export default function CrudGrid() {
     try {
       await setDoc(doc(db, "Events", newRow.id), {
         id: newRow.id,
-        user: data.get("uid"),
+        user: user.uid,
         before: "before",
         after: "after",
         date: currentDate,
@@ -158,6 +159,16 @@ export default function CrudGrid() {
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
   };
+
+  /*   const getUserRole = async () => {
+    const user = auth.currentUser;
+    const id = user.uid;
+    const docRef = doc(db, "users", id);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data().role;
+  };
+
+  const isAdmin = getUserRole() == "Administrator"; */
 
   const columns = [
     {
