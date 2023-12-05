@@ -3,22 +3,42 @@ import CrudGrid from "../components/CrudGrid";
 import Typography from "@mui/material/Typography";
 import Stack from '@mui/material/Stack';
 import Item from '@mui/material/Stack';
-import { db, auth } from "../index";
+import { db, auth} from "../index";
+import {
+  collection,
+  query,
+  doc,
+  getDoc,
+  getDocs,
+  where,
+  on,
+  AggregateField,
+} from "firebase/firestore";
 
 function Home() {
-  /*const accountsRef = db.collection('accounts').doc();
-  const assetsRef = accountsRef.where('Category', '==', 'Asset');
-  const liabilityRef = accountsRef.where('Category', '==', 'Liability');
+  /*const accountsRef = collection(db, 'accounts');
+  const assetsRef =  query(accountsRef, where('category', '==', 'asset'));
+  const liabilityRef = query(accountsRef, where('category', '==', 'liability'));
 
-  const sumAssetQuery = assetsRef.aggregate({
-    totalAssets: AggregateField.sum('Balance'),
+  const sumAsset = 0;
+  const sumLiability = 0;
+
+  const sumAssetsAggregateQuery = assetsRef.aggregate({
+    totalAssets: AggregateField.sum('balance'),
   });
 
-  const sumLiabilityQuery = liabilityRef.aggregate({
-    totalLiability: AggregateField.sum('Balance'),
+  const sumLiabilitiesAggregateQuery = liabilityRef.aggregate({
+    totalLiabilities: AggregateField.sum('balance'),
   });
 
-  const currentRatio = sumAssetQuery.get()/sumLiabilityQuery.get();*/
+  sumAsset = totalAssets;
+  sumLiability = totalLiabilities;*/
+
+  const currentRatio = 545/250;
+  const cashRatio = 500/200;
+  const debtRatio = 200/300;
+  const assetTurnoverRatio = 480/150;
+  
 
   return (
     <div style={{ height: 400, width: "100%" }}>
@@ -29,9 +49,10 @@ function Home() {
             Financial Ratios
       </Typography>
       <Stack direction="row" alignItems="center" justifyContent="space-evenly" spacing={2}>
-      <Item>Current Ratio: currentRatio</Item>
-      <Item>Cash Ratio: </Item>
-      <Item>Debt Ratio: </Item>
+      <Item>Current Ratio: {currentRatio} %</Item>
+      <Item>Cash Ratio: {cashRatio} %</Item>
+      <Item>Debt Ratio: {debtRatio} %</Item>
+      <Item>Asset Turnover Ratio {assetTurnoverRatio} %</Item>
       </Stack>
     </div>
   );
