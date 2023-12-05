@@ -8,6 +8,26 @@ Massamty is a web-based accounting application. It is capable of performing vari
 
 In addition to these functionalities, the application also provides users with an automatically generated ledger for each account and an event log to track when new accounts are created or when existing accounts are edited.
 
+## Running the Application
+
+To run the application, you must have node installed. You can download the latest version of node using the following website: https://nodejs.org/en
+
+Next, you must clone the git repository:
+
+`git clone git@github.com:SamCorella/massamty.git`
+
+Then, change directories into the "accounting-app" folder:
+
+`cd accounting-app`
+
+To install the necessary node modules, the following command will automatically install all dependencies:
+
+`npm install`
+
+Lastly, you can start the application using the following npm command:
+
+`npm start`
+
 ## User Manual
 
 ### Creating a New User
