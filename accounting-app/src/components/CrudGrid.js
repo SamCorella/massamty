@@ -17,7 +17,6 @@ import {
 } from "@mui/x-data-grid";
 import { randomId } from "@mui/x-data-grid-generator";
 import { useEffect } from "react";
-import { db } from "../index";
 import {
   collection,
   doc,
@@ -26,7 +25,7 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { auth } from "../index";
+import { auth, db } from "../index";
 import { useNavigate } from "react-router-dom";
 
 function EditToolbar(props) {
@@ -145,8 +144,6 @@ export default function CrudGrid() {
       await setDoc(doc(db, "Events", newRow.id), {
         id: newRow.id,
         user: user.uid,
-        before: "before",
-        after: "after",
         date: currentDate,
       });
       //console.log("New document added with ID:", newDocRef.id);
@@ -162,13 +159,16 @@ export default function CrudGrid() {
 
   /*   const getUserRole = async () => {
     const user = auth.currentUser;
-    const id = user.uid;
-    const docRef = doc(db, "users", id);
+    const docRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(docRef);
-    return docSnap.data().role;
+    const role = docSnap.data().role;
+    console.log(role);
+    return role;
   };
 
-  const isAdmin = getUserRole() == "Administrator"; */
+  const userRole = getUserRole();
+  const isAdmin = userRole === "Administrator";
+  console.log(isAdmin); */
 
   const columns = [
     {

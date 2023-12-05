@@ -16,7 +16,7 @@ import Logo from "../components/Logo";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { DatePicker } from "@mui/x-date-pickers";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../index";
 
@@ -35,7 +35,7 @@ function CreateAccount() {
       .then(async (userCredential) => {
         const user = userCredential.user;
         try {
-          const docRef = await addDoc(collection(db, "users"), {
+          const docRef = await setDoc(doc(db, "users", user.uid), {
             id: user.uid,
             first: data.get("firstName"),
             last: data.get("lastName"),
